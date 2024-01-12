@@ -1,0 +1,59 @@
+<div class="container">
+  <div fxLayout="row" class="profile-config-title" fxLayoutAlign="center center" >
+      <h1 style="color: white;">Profile Configuration</h1>
+  </div>
+  <div fxLayout="row" style="width: 100%">
+    <div fxLayout="column" fxFlex="30%" >
+      <img class="profile-img" src="../../../assets/img/account.png" alt="">
+      <button mat-raised-button color="primary" class="profile-photo-button">Changer la photo</button>
+    </div>
+    <div fxFlex="70%" class="ligne">
+        <div fxFlex="column" style="width: 100%" >
+          <br>
+          <div fxLayout="row" fxLayoutAlign="space-between start" >
+            <mat-label class="form-title">Données personnelles</mat-label>
+            <mat-icon class="wallet-icon" color="primary">account_balance_wallet</mat-icon>
+          </div>
+          <br>
+          <div fxLayout="row" fxLayoutAlign="space-between start"  style="padding-top: 20px;" >
+            <mat-form-field appearance="outline" style="margin-right: 10px ;" class="profil-perso">
+              <mat-label>Inserez votre nom</mat-label>
+              <input matInput placeholder="Nom">
+            </mat-form-field>
+            <mat-form-field  appearance="outline" style="margin-left: 20px ;" class="profil-perso">
+              <mat-label>Inserez votre prenom</mat-label>
+              <input matInput placeholder="Prenom">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field  appearance="outline" class="profil-perso">
+              <mat-label>Inserez votre Mail</mat-label>
+              <input matInput placeholder="Mail">
+            </mat-form-field>
+          </div>
+          <br>
+          <mat-label class="form-title">Adresse</mat-label>
+          <br>
+          <div fxLayout="row" fxLayoutAlign="space-between start" style="padding-top: 20px;" >
+            <mat-form-field appearance="outline" class="profil-adresse">
+              <mat-label>Inserez votre Adresse</mat-label>
+              <input matInput placeholder="Adresse">
+            </mat-form-field>
+            <span class="spacer"> </span>
+            <mat-form-field appearance="outline" class="profil-adresse">
+              <mat-label>Inserez votre Ville</mat-label>
+              <input matInput placeholder="Ville">
+            </mat-form-field>
+            <span class="spacer"> </span>
+            <mat-form-field appearance="outline" style="width: 30%;">
+              <mat-label>Code Postal</mat-label>
+              <input matInput placeholder="Code Postal">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center start">
+            <button mat-raised-button color="primary">Sauver</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

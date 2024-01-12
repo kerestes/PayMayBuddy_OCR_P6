@@ -1,0 +1,27 @@
+.container{
+  height: 90hv;
+  width: 90hv;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+h1{
+  font-size: 40px;
+  color: green;
+}
+
+h2{
+  font-size: 30px;
+  color: blue;
+}
+
+p{
+  margin: 4px;
+  font-size: 19px;
+}
+
+button{
+  margin-top: 20px;
+}

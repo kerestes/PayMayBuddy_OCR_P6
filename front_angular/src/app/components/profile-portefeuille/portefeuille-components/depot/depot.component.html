@@ -1,0 +1,99 @@
+<div style="display:flex; justify-content: space-between;">
+  <div style="width: 50%;">
+    <form [formGroup]="cardPaiement">
+      <mat-card style="width: 80%; margin: auto;">
+        <mat-card-header class="card-header">
+          <mat-card-title style="padding: 10px 0 0 20px;">Montant</mat-card-title>
+          <div >
+            <mat-form-field appearance="outline">
+              <mat-label>Montant</mat-label>
+              <input type="number" matInput placeholder="Montant" formControlName="montant">
+              <span style="margin-right: 20px;" matSuffix>€</span>
+            </mat-form-field>
+          </div>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <div style="width: 100%">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Numero de la carte</mat-label>
+              <input  type="number" matInput placeholder="Carte" formControlName="numeroCarte">
+            </mat-form-field>
+          </div>
+          <div  class="content-double">
+            <mat-form-field appearance="outline" style="width: 45%">
+              <mat-label>Mois</mat-label>
+              <input  type="number" matInput placeholder="Mois" formControlName="mois">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 45%">
+              <mat-label>Année</mat-label>
+              <input  type="number" matInput placeholder="Année" formControlName="annee">
+            </mat-form-field>
+          </div>
+          <div style="display: flex; justify-content: center;" >
+            <mat-form-field appearance="outline" style="width: 45%;">
+              <mat-label>CVV</mat-label>
+              <input  type="number" matInput placeholder="Cvv" formControlName="cvv">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+        <mat-card-actions style="display: flex; justify-content: center;">
+          <button mat-raised-button color="primary" style="padding: 25px; font-size: 20px;">DÉPOSER</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+  <div style="width: 50%;">
+    <mat-card style="width: 80%; margin: auto;">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Compte Personnel</mat-card-title>
+        <mat-card-subtitle>PayBuddy Banque</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="border: 1px solid black;">
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="codeBanque">
+            <th mat-header-cell *matHeaderCellDef style="background-color: azure;border-right: 1px solid black;"> Code Banque </th>
+            <td mat-cell *matCellDef="let element" style="border-right: 1px solid black;"> {{element.codeBanque}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="codeGuichet">
+            <th mat-header-cell *matHeaderCellDef style="background-color: azure;border-right: 1px solid black;"> Code Guichet </th>
+            <td mat-cell *matCellDef="let element" style="border-right: 1px solid black;"> {{element.codeGuichet}} </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef style="background-color: azure;border-right: 1px solid black;"> Numéro de Compte </th>
+            <td mat-cell *matCellDef="let element" style="border-right: 1px solid black;"> {{element.numero}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="cleRib">
+            <th mat-header-cell *matHeaderCellDef style="background-color: azure;"> Clé RIB </th>
+            <td mat-cell *matCellDef="let element"> {{element.cleRib}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <div style="display: flex; padding-top: 10px; width: 100%">
+          <p style="width: 30%;" class="box-bic-iban"> I.B.A.N</p>
+          <p style="width: 70%;" class="box-bic-iban"> {{iban}}</p>
+        </div>
+
+        <div style="display: flex; padding-top: 10px; width: 100%">
+          <p style="width: 30%;" class="box-bic-iban"> BIC </p>
+          <p style="width: 70%;" class="box-bic-iban"> {{bic}}</p>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

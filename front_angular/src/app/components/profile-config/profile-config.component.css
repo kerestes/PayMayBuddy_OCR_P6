@@ -1,0 +1,51 @@
+.container{
+  width: 70%;
+  height: 85vh;
+  margin: 50px auto 0 auto;
+}
+
+.profile-config-title{
+  width: 100%;
+  background-color: green;
+}
+
+.profile-img{
+  padding: 60px 50px 0 50px;
+  margin: auto;
+  width: 50%;
+}
+
+.profile-photo-button{
+  width: 50%;
+  margin: auto;
+}
+
+.ligne{
+  padding: 0px 20px 0 20px;
+  margin-top: 50px;
+}
+
+.profil-perso{
+  width: 100%;
+  margin: 0 auto 0 auto;
+}
+
+.profil-adresse{
+  width: 100%;
+}
+
+.spacer{
+  margin: 15px;
+}
+
+.wallet-icon{
+  margin-right: 20px;
+}
+
+.wallet-icon:hover{
+  cursor: pointer;
+}
+
+.form-title{
+  font-size: x-large;
+}

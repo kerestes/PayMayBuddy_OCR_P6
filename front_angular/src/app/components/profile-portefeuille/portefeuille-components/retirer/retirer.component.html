@@ -1,0 +1,28 @@
+<div style="width: 80%; margin: auto;">
+  <form [formGroup]="retrait">
+    <mat-card style="width: 80%; margin: auto;">
+      <mat-card-header class="card-header" style="margin: auto;">
+        <mat-card-title style="padding: 10px 20px 0 20px;">Montant</mat-card-title>
+        <div >
+          <mat-form-field appearance="outline">
+            <mat-label>Montant</mat-label>
+            <input type="number" matInput placeholder="Montant" formControlName="montant">
+            <span style="margin-right: 20px;" matSuffix>€</span>
+          </mat-form-field>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="card-content">
+        <div style="width: 100%; display: flex; justify-content: center;">
+          <p></p>
+          <mat-form-field appearance="outline" style="width: 60%;">
+            <mat-label>IBAN</mat-label>
+            <input  type="number" matInput placeholder="Iban" formControlName="iban">
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions style="display: flex; justify-content: center;">
+        <button mat-raised-button color="primary" style="padding: 25px; font-size: 20px;">DÉPOSER</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

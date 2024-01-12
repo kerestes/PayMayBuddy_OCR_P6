@@ -1,0 +1,20 @@
+<div class="container">
+  <img class="img-principal" style="width: 40%" src="../../../assets/img/paiement_vert.jpg" alt="">
+  @if(login == false){
+    <div>
+      <h1>Pay My Buddy</h1>
+      <h2>Parce que on doit toujours payer nos amis</h2>
+      <p>Voulez-vous faire partie des meilleiurs amis ?</p>
+      <p>Perdez pas de temps et inscrivez-vous dès maintenant</p>
+      <button mat-raised-button color="primary" routerLink="/registrer">S'inscrire</button>
+    </div>
+  } @else {
+    <div>
+      <h1>Pay My Buddy</h1>
+      <h2>Parce que on doit toujours payer nos amis</h2>
+      <p>Soyez le bienvenu !!! </p>
+      <p>Ne perdez plus de temps, faites un transfer maintenant </p>
+      <button mat-raised-button style="background-color: green;" routerLink="/transfer">Commencer</button>
+    </div>
+  }
+</div>

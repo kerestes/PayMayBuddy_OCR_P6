@@ -1,0 +1,13 @@
+<div class="container">
+  <div fxLayout="row" class="profile-config-title" fxLayoutAlign="center center">
+      <h1 style="color: white;">Portefeuille</h1>
+  </div>
+  <nav mat-tab-nav-bar ngClass = "tabs" [tabPanel]="tabPanel">
+    @for(llr of labelLinkRouters; track llr.label){
+      <a mat-tab-link [routerLink]=llr.link routerLinkActive="active-link">{{llr.label}}</a>
+    }
+ </nav>
+ <div #tabPanel>
+   <router-outlet></router-outlet>
+ </div>
+

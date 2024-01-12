@@ -1,0 +1,24 @@
+.card-header{
+  width: 80%;
+  margin:auto;
+  justify-content: space-between;
+}
+
+.card-content{
+  padding: 0;
+  margin: auto;
+  width: 80%;
+}
+
+.content-double{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.box-bic-iban{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid black;
+}
