@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistrerComponent } from './registrer.component';
+import { Login403Component } from './login-403.component';
 
-describe('RegistrerComponent', () => {
-  let component: RegistrerComponent;
-  let fixture: ComponentFixture<RegistrerComponent>;
+describe('Login403Component', () => {
+  let component: Login403Component;
+  let fixture: ComponentFixture<Login403Component>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegistrerComponent]
+      imports: [Login403Component]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(RegistrerComponent);
+    fixture = TestBed.createComponent(Login403Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

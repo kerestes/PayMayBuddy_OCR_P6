@@ -5,7 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { RouterLink } from '@angular/router';
-import { LoginService } from './services/login.service';
+import { LoginService } from './services/loginService/login.service';
 import {MatMenuModule} from '@angular/material/menu';
 
 @Component({
@@ -18,6 +18,6 @@ import {MatMenuModule} from '@angular/material/menu';
 export class AppComponent {
   loginService: LoginService = inject(LoginService);
   title:string = 'front_angular';
-  login:boolean = this.loginService.getLogin();
+  login:boolean = this.loginService.isAuthencitated();
   logout():void{};
 }
