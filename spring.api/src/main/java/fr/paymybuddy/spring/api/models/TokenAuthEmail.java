@@ -11,16 +11,16 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "token_auth_email")
+@Table(name = "tokens_auth_email")
+
 public class TokenAuthEmail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "id_user")
     private User user;
 
     @Column(nullable = false, unique = true)

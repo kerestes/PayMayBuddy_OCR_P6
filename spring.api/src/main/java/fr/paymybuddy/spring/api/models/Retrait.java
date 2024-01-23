@@ -1,0 +1,33 @@
+package fr.paymybuddy.spring.api.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "retraits")
+public class Retrait {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_portefeuille")
+    private Portefeuille portefeuille;
+
+    @ManyToOne
+    @JoinColumn(name = "id_iban")
+    private Iban iban;
+
+    private BigDecimal montant;
+
+    @Column(name = "date_retrait")
+    private Date dateRetrait;
+}

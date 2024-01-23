@@ -28,5 +28,6 @@ export const routes: Routes = [
     {path:'actuel', component: ActuelComponent},
     {path:'depot', component: DepotComponent},
     {path:'retirer', component: RetirerComponent}
-  ]}
+  ]},
+  {path:'**', redirectTo:'/home', pathMatch:'full'}
 ];

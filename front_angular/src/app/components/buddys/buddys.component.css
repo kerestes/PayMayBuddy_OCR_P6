@@ -25,3 +25,11 @@
     background-color: green;
     color: white;
 }
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-column-nom, .mat-column-prenom, .mat-column-email, .mat-column-button{
+  text-align: center;
+}

@@ -2,9 +2,11 @@ package fr.paymybuddy.spring.api.controllers;
 
 import fr.paymybuddy.spring.api.enums.StatusTypeEnum;
 import fr.paymybuddy.spring.api.exception.InvalidStatusException;
+import fr.paymybuddy.spring.api.models.Portefeuille;
 import fr.paymybuddy.spring.api.models.TokenAuthEmail;
 import fr.paymybuddy.spring.api.models.User;
-import fr.paymybuddy.spring.api.services.authServices.TokenAuthEmailService;
+import fr.paymybuddy.spring.api.services.PortefeuilleService;
+import fr.paymybuddy.spring.api.services.TokenAuthEmailService;
 import fr.paymybuddy.spring.api.services.UserService;
 import fr.paymybuddy.spring.api.utils.EmailRegistrationUtil;
 import fr.paymybuddy.spring.api.utils.ValidatorUtil;
@@ -15,7 +17,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +29,8 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PortefeuilleService portefeuilleService;
     @Autowired
     private EmailRegistrationUtil emailRegistrationUtil;
     @Autowired
@@ -37,6 +43,7 @@ public class AuthController {
             if(userService.findOneByEmail(user.getEmail()).isEmpty()){
                 user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
                 user.setStatus(StatusTypeEnum.CONFIRME_AUTH);
+                user.newIdUser();
                 User newUser = userService.save(user);
                 if(newUser != null){
                     emailRegistrationUtil.setUser(newUser);
@@ -58,7 +65,9 @@ public class AuthController {
         if (tokenAuthEmailOptional.isPresent()){
             User user = tokenAuthEmailOptional.get().getUser();
             user.setStatus(StatusTypeEnum.ACTIVE);
+            Portefeuille portefeuille = new Portefeuille(user, new BigDecimal(0), new Date());
             userService.save(user);
+            portefeuilleService.save(portefeuille);
         } else {
             return false;
         }
@@ -69,7 +78,6 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody User user){
         try{
             String token = userService.authenticateUser(user);
-            System.out.println(token);
             return ResponseEntity.ok().body(token);
         }catch (BadCredentialsException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");

@@ -7,7 +7,7 @@
 }
 
 .centralizer{
-  width: 50%;
+  width: 80%;
 }
 
 .card-title{
@@ -24,4 +24,8 @@
   padding-right: 20px;
   background-color: green;
   color: white;
+}
+
+.table-depot{
+  width: 100%;
 }

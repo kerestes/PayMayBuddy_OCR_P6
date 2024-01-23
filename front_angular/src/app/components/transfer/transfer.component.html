@@ -13,7 +13,9 @@
                 <mat-form-field>
                     <mat-label>Selectionez un Buddy</mat-label>
                     <mat-select>
-                        <mat-option value="option">Option</mat-option>
+                        @for (buddy of selectOptions; track buddy.nom){
+                          <mat-option value="standard">{{buddy.prenom}}  {{buddy.nom}}</mat-option>
+                        }
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field floatLabel="always">
@@ -33,19 +35,24 @@
             <mat-card-actions class="example-container">
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-                    <ng-container matColumnDef="buddy">
-                      <th mat-header-cell *matHeaderCellDef> Buddy </th>
-                      <td mat-cell *matCellDef="let element"> {{element.buddy}} </td>
+                    <ng-container matColumnDef="userOrigine">
+                      <th mat-header-cell *matHeaderCellDef> Buddy Origine </th>
+                      <td mat-cell *matCellDef="let element"> {{element.portefeuilleOrigine.user.nom}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="description">
-                      <th mat-header-cell *matHeaderCellDef> Description </th>
-                      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                    <ng-container matColumnDef="userDestination">
+                      <th mat-header-cell *matHeaderCellDef> Buddy Destination </th>
+                      <td mat-cell *matCellDef="let element"> {{element.portefeuilleDestination.user.nom}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="montant">
                       <th mat-header-cell *matHeaderCellDef> Montant </th>
                       <td mat-cell *matCellDef="let element"> {{element.montant}} €</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="dateTransaction">
+                      <th mat-header-cell *matHeaderCellDef> Date de Transaction</th>
+                      <td mat-cell *matCellDef="let element"> {{element.dateTransaction}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

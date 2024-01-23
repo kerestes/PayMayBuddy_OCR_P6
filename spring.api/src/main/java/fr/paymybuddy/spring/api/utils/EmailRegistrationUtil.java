@@ -2,7 +2,7 @@ package fr.paymybuddy.spring.api.utils;
 
 import fr.paymybuddy.spring.api.models.TokenAuthEmail;
 import fr.paymybuddy.spring.api.models.User;
-import fr.paymybuddy.spring.api.services.authServices.TokenAuthEmailService;
+import fr.paymybuddy.spring.api.services.TokenAuthEmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.Setter;
@@ -48,7 +48,7 @@ public class EmailRegistrationUtil implements Runnable{
         Boolean tokenVerified = false;
 
         while (!tokenVerified){
-            token = TokenAuthMailUtil.tokenGenerate();
+            token = TokenAuthMailUtil.tokenGenerate(8);
             Optional<TokenAuthEmail> tokenAuthEmail = tokenAuthEmailService.findOneByToken(token);
             if(tokenAuthEmail.isEmpty())
                 tokenVerified = true;

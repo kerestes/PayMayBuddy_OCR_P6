@@ -1,4 +1,4 @@
-package fr.paymybuddy.spring.api.services.authServices;
+package fr.paymybuddy.spring.api.services;
 
 import fr.paymybuddy.spring.api.models.TokenAuthEmail;
 import fr.paymybuddy.spring.api.repositories.TokenAuthEmailRepository;
