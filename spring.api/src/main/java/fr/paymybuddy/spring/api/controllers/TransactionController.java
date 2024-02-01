@@ -11,6 +11,7 @@ import fr.paymybuddy.spring.api.services.TransactionBuddysService;
 import fr.paymybuddy.spring.api.services.authServices.JwtTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +60,6 @@ public class TransactionController {
                return ResponseEntity.notFound().build();
            }
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 }

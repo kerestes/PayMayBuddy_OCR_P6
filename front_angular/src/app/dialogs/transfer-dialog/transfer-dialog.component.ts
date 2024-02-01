@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TrasferService } from '../../services/transferService/trasfer.service';
 import { User } from '../../models/user/user';
 import { Transaction } from '../../models/transaction/transaction';
+import { SoldeInsuffisantComponent } from '../solde-inssuffisant/solde-insuffisant.component';
 
 @Component({
   selector: 'app-transfer-dialog',
@@ -63,6 +64,9 @@ export class TransferDialogComponent {
           console.log("reload")
         },
         error:(error)=> {
+          if(error.status == 406){
+            this.dialog.open(SoldeInsuffisantComponent);
+          }
           console.log(error)
         }
       })

@@ -12,11 +12,13 @@ import { BuddyService } from '../../services/buddyService/buddy.service';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { TransferDialogComponent } from '../../dialogs/transfer-dialog/transfer-dialog.component';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transfer',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, RouterLink, MatInputModule, MatSelectModule, MatTableModule],
+  imports: [MatCardModule, MatButtonModule, RouterLink, MatInputModule, MatSelectModule, MatTableModule,
+    ReactiveFormsModule],
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.css'
 })
@@ -31,6 +33,11 @@ export class TransferComponent {
   displayedColumns: string[] = ['userOrigine', 'userDestination', 'montantTotal', 'taxe', 'montantLiquide', 'dateTransaction'];
   dataSource!:Transaction[];
 
+  selectUserFrom = new FormGroup({
+    buddy: new FormControl('', [Validators.required]),
+    montant: new FormControl(0, [Validators.required])
+  });
+
   ngOnInit(){
     this.transferService.getTransferList().subscribe({
       next:(response) => {
@@ -44,9 +51,15 @@ export class TransferComponent {
     })
   }
 
+  selectUser(user:User){
+    this.selectedUser =user;
+  }
+
   makeTransfer(){
-    if(this.selectedUser){
-      this.transferService.user=this.selectedUser;
+    console.log(this.selectedUser)
+    if(this.selectUserFrom.controls.buddy.valid && this.selectUserFrom.controls.montant.valid && this.selectedUser){
+      this.transferService.user = this.selectedUser;
+      this.transferService.transaction.montantTotal = this.selectUserFrom.get('montant')?.value;
     }
 
     this.dialog.open(TransferDialogComponent);

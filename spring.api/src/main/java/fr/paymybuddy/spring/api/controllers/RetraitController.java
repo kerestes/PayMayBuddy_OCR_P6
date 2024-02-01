@@ -12,6 +12,8 @@ import fr.paymybuddy.spring.api.services.RetraitService;
 import fr.paymybuddy.spring.api.services.authServices.JwtTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,32 +49,34 @@ public class RetraitController {
         String email = jwtTokenService.getSubjectFromToken(token);
 
         Portefeuille portefeuille = portefeuilleService.getPortefeuilleByEmail(email);
-        String iban = node.get("iban").asText();
+        if(portefeuille.getSolde().compareTo(node.get("montant").decimalValue()) > 0){
+            String iban = node.get("iban").asText();
 
-        Iban realIban = new Iban();
-        realIban.setPortefeuille(portefeuille);
-        realIban.setBic(node.get("bic").asText());
-        realIban.setIban(iban.substring(0, 4));
-        realIban.setCodeBanque(iban.substring(4, 9));
-        realIban.setCodeGuichet(iban.substring(9, 14));
-        realIban.setNumeroCompte(iban.substring(14, iban.length() -2));
-        realIban.setCleRib(iban.substring(iban.length() -2, iban.length()));
+            Iban realIban = new Iban();
+            realIban.setPortefeuille(portefeuille);
+            realIban.setBic(node.get("bic").asText());
+            realIban.setIban(iban.substring(0, 4));
+            realIban.setCodeBanque(iban.substring(4, 9));
+            realIban.setCodeGuichet(iban.substring(9, 14));
+            realIban.setNumeroCompte(iban.substring(14, iban.length() -2));
+            realIban.setCleRib(iban.substring(iban.length() -2, iban.length()));
 
-        Optional<Iban> ibanOptional = ibanService.findByCompteAdresse(realIban.getIban(), realIban.getCodeBanque(),
-                realIban.getCodeGuichet(), realIban.getNumeroCompte(), realIban.getCleRib(), realIban.getPortefeuille().getId());
-        if(ibanOptional.isPresent()){
-            realIban = ibanOptional.get();
-        } else {
-            realIban = ibanService.save(realIban);
+            Optional<Iban> ibanOptional = ibanService.findByCompteAdresse(realIban.getIban(), realIban.getCodeBanque(),
+                    realIban.getCodeGuichet(), realIban.getNumeroCompte(), realIban.getCleRib(), realIban.getPortefeuille().getId());
+            if(ibanOptional.isPresent()){
+                realIban = ibanOptional.get();
+            } else {
+                realIban = ibanService.save(realIban);
+            }
+
+            Retrait realRetrait = new Retrait();
+            realRetrait.setPortefeuille(portefeuille);
+            realRetrait.setDateRetrait(new Date());
+            realRetrait.setIban(realIban);
+            realRetrait.setMontantTotal(node.get("montant").decimalValue());
+
+            return ResponseEntity.ok(retraitService.save(realRetrait));
         }
-
-        Retrait realRetrait = new Retrait();
-        realRetrait.setPortefeuille(portefeuille);
-        realRetrait.setDateRetrait(new Date());
-        realRetrait.setIban(realIban);
-        realRetrait.setMontantTotal(node.get("montant").decimalValue());
-
-        return ResponseEntity.ok(retraitService.save(realRetrait));
-
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 }

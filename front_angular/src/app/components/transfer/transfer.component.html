@@ -10,21 +10,23 @@
                 </span>
             </mat-card-title>
             <mat-card-actions class="example-container">
+              <form [formGroup]="selectUserFrom">
                 <mat-form-field>
                     <mat-label>Selectionez un Buddy</mat-label>
-                    <mat-select (ngModel)="selectedUser">
+                    <mat-select formControlName="buddy">
                         @for (buddy of selectOptions; track buddy.nom){
-                          <mat-option value="standard">{{buddy.prenom}}  {{buddy.nom}}</mat-option>
+                          <mat-option value="buddy.email" (click)="selectUser(buddy)">{{buddy.prenom}}  {{buddy.nom}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field floatLabel="always">
                 <mat-label>Montant</mat-label>
-                <input matInput type="number" class="example-right-align" placeholder="0">
+                <input matInput formControlName="montant" type="number" class="example-right-align" placeholder="0">
                 </mat-form-field>
                 <button class="payer-button" mat-raised-button color="primary" (click)="makeTransfer()">
                 Payer
                 </button>
+              </form>
             </mat-card-actions>
         </mat-card>
         <mat-card>
