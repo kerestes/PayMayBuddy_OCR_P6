@@ -1,6 +1,7 @@
 package fr.paymybuddy.spring.api.services;
 
 import fr.paymybuddy.spring.api.models.Portefeuille;
+import fr.paymybuddy.spring.api.models.User;
 import fr.paymybuddy.spring.api.repositories.PortefeuilleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

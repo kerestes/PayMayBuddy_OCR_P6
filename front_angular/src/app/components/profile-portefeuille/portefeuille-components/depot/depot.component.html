@@ -7,7 +7,7 @@
           <div >
             <mat-form-field appearance="outline">
               <mat-label>Montant</mat-label>
-              <input type="number" matInput placeholder="Montant" formControlName="montant">
+              <input type="number" matInput placeholder="Montant" formControlName="montant" required>
               <span style="margin-right: 20px;" matSuffix>€</span>
             </mat-form-field>
           </div>
@@ -15,29 +15,55 @@
         <mat-card-content class="card-content">
           <div style="width: 100%">
             <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nom sur carte</mat-label>
+              <input matInput placeholder="Nom" formControlName="nomCarte" (input)="formtInput()">
+              @if("nomCarte.invalid && (nomCarte.dirty || nomCarte.touched)"){
+                <mat-error>
+                  Please enter a valid name.
+                </mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div style="width: 100%">
+            <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Numero de la carte</mat-label>
-              <input  type="number" matInput placeholder="Carte" formControlName="numeroCarte">
+              <input matInput #input minlength="19" maxlength="19" placeholder="Carte" formControlName="numeroCarte" (input)="formtInput()">
+              @if("numeroCarte.invalid && (numeroCarte.dirty || numeroCarte.touched)"){
+                <mat-error>
+                  Please enter a valid credit card.
+                </mat-error>
+              }
             </mat-form-field>
           </div>
           <div  class="content-double">
             <mat-form-field appearance="outline" style="width: 45%">
               <mat-label>Mois</mat-label>
-              <input  type="number" matInput placeholder="Mois" formControlName="mois">
+              <input  type="number" matInput placeholder="Mois" formControlName="mois" required>
+              @if("mois.invalid && (mois.dirty || mois.touched)"){
+                <mat-error>
+                  It must between 1 and 12.
+                </mat-error>
+              }
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 45%">
               <mat-label>Année</mat-label>
-              <input  type="number" matInput placeholder="Année" formControlName="annee">
+              <input  type="number" matInput placeholder="Année" formControlName="annee" required>
+              @if("mois.invalid && (mois.dirty || mois.touched)"){
+                <mat-error>
+                  It must be at least {{annee}}
+                </mat-error>
+              }
             </mat-form-field>
           </div>
           <div style="display: flex; justify-content: center;" >
             <mat-form-field appearance="outline" style="width: 45%;">
               <mat-label>CVV</mat-label>
-              <input  type="number" matInput placeholder="Cvv" formControlName="cvv">
+              <input matInput #input placeholder="CVV" formControlName="cvv" minlength="3" maxlength="3" required (input)="controlCvv()">
             </mat-form-field>
           </div>
         </mat-card-content>
         <mat-card-actions style="display: flex; justify-content: center;">
-          <button mat-raised-button color="primary" style="padding: 25px; font-size: 20px;">DÉPOSER</button>
+          <button mat-raised-button color="primary" style="padding: 25px; font-size: 20px;" [disabled]="cardPaiement.invalid" (click)="deposer()">DÉPOSER</button>
         </mat-card-actions>
       </mat-card>
     </form>

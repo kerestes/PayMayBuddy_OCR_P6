@@ -65,10 +65,14 @@ public class AuthController {
         if (tokenAuthEmailOptional.isPresent()){
             User user = tokenAuthEmailOptional.get().getUser();
             user.setStatus(StatusTypeEnum.ACTIVE);
-            Portefeuille portefeuille = new Portefeuille(user, new BigDecimal(0), new Date());
+            Portefeuille portefeuille = new Portefeuille();
+            portefeuille.setUser(user);
+            portefeuille.setSolde(new BigDecimal(0));
+            portefeuille.setUpdateDate(new Date());
             userService.save(user);
             portefeuilleService.save(portefeuille);
         } else {
+            System.out.println("erro: TokenAuthEmail nao esta registrado");
             return false;
         }
         return true;

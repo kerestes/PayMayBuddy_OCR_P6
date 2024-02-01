@@ -16,19 +16,29 @@
           <p></p>
           <mat-form-field appearance="outline" style="width: 60%;">
             <mat-label>IBAN</mat-label>
-            <input  type="text" matInput placeholder="Iban" formControlName="iban">
+            <input matInput #input minlength="18" maxlength="34" placeholder="Iban" formControlName="iban" (input)="ibanController()">
+            @if("iban.invalid && (iban.dirty || iban.touched)"){
+              <mat-error>
+                Entre a valid IBAN
+              </mat-error>
+            }
           </mat-form-field>
         </div>
         <div style="width: 100%; display: flex; justify-content: center;">
           <p></p>
           <mat-form-field appearance="outline" style="width: 60%;">
             <mat-label>BIC</mat-label>
-            <input  type="text" matInput placeholder="Iban" formControlName="iban">
+            <input matInput #input minlength="8" maxlength="11" placeholder="BIC" formControlName="bic" (input)="bicController()" required>
+            @if("bic.invalid && (bic.dirty || bic.touched)"){
+              <mat-error>
+                Entre a valid BIC
+              </mat-error>
+            }
           </mat-form-field>
         </div>
       </mat-card-content>
       <mat-card-actions style="display: flex; justify-content: center;">
-        <button mat-raised-button color="primary" style="padding: 25px; font-size: 20px;">DÉPOSER</button>
+        <button mat-raised-button color="primary" style="padding: 25px; font-size: 20px;" [disabled]="retrait.invalid" (click)="deposer()">DÉPOSER</button>
       </mat-card-actions>
     </mat-card>
   </form>

@@ -15,4 +15,8 @@ export class RetraitService {
   public getRetraits():Observable<Retrait[]>{
     return this.http.get<Retrait[]>(URL);
   }
+
+  public makeRetrait(retrait:any){
+    return this.http.post(`${URL}/make-retrait`, retrait);
+  }
 }

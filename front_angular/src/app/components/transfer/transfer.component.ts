@@ -9,6 +9,9 @@ import { TrasferService } from '../../services/transferService/trasfer.service';
 import { Transaction } from '../../models/transaction/transaction';
 import { User } from '../../models/user/user';
 import { BuddyService } from '../../services/buddyService/buddy.service';
+import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { TransferDialogComponent } from '../../dialogs/transfer-dialog/transfer-dialog.component';
 
 @Component({
   selector: 'app-transfer',
@@ -18,14 +21,18 @@ import { BuddyService } from '../../services/buddyService/buddy.service';
   styleUrl: './transfer.component.css'
 })
 export class TransferComponent {
-  selectOptions!:User[];
   buddyService:BuddyService = inject(BuddyService);
-  transferList:TrasferService = inject(TrasferService);
-  displayedColumns: string[] = ['userOrigine', 'userDestination', 'montant', 'dateTransaction'];
+  transferService:TrasferService = inject(TrasferService);
+  private dialog:MatDialog=inject(MatDialog);
+
+  selectOptions!:User[];
+  selectedUser?:User;
+
+  displayedColumns: string[] = ['userOrigine', 'userDestination', 'montantTotal', 'taxe', 'montantLiquide', 'dateTransaction'];
   dataSource!:Transaction[];
 
   ngOnInit(){
-    this.transferList.getTransferList().subscribe({
+    this.transferService.getTransferList().subscribe({
       next:(response) => {
         this.dataSource = response;
       }
@@ -35,5 +42,13 @@ export class TransferComponent {
         this.selectOptions = response;
       }
     })
+  }
+
+  makeTransfer(){
+    if(this.selectedUser){
+      this.transferService.user=this.selectedUser;
+    }
+
+    this.dialog.open(TransferDialogComponent);
   }
 }

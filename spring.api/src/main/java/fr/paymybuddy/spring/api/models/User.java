@@ -30,7 +30,11 @@ public class User {
 
     private String adresse;
 
-    @Column(nullable = false)
+    private String ville;
+
+    @Column(name = "code_postal")
+    private String codePostal;
+
     private String password;
 
     @Transient

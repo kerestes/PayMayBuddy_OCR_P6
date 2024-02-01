@@ -1,6 +1,7 @@
 package fr.paymybuddy.spring.api.controllers;
 
 import fr.paymybuddy.spring.api.models.Portefeuille;
+import fr.paymybuddy.spring.api.models.User;
 import fr.paymybuddy.spring.api.services.PortefeuilleService;
 import fr.paymybuddy.spring.api.services.authServices.JwtTokenService;
 import jakarta.servlet.http.HttpServletRequest;

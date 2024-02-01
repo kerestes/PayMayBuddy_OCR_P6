@@ -26,7 +26,13 @@ public class Retrait {
     @JoinColumn(name = "id_iban")
     private Iban iban;
 
-    private BigDecimal montant;
+    @Column(name = "montant_total")
+    private BigDecimal montantTotal;
+
+    @Column(name= "montant_liquide")
+    private BigDecimal montantLiquide;
+
+    private BigDecimal taxe;
 
     @Column(name = "date_retrait")
     private Date dateRetrait;

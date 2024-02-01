@@ -4,10 +4,12 @@ import { Portefeuille } from "../portefeuille/portefeuille";
 
 export class Depot {
   constructor(
-    public portefeuille: Portefeuille,
-    public carte: Carte,
-    public iban: Iban,
-    public montant: number,
-    public dateDepot: Date
+    public portefeuille?: Portefeuille,
+    public carte?: Carte,
+    public iban?: Iban,
+    public montantTotal?:number,
+    public taxe?:number,
+    public montantLiquide?:number,
+    public dateDepot?: Date
   ){}
 }

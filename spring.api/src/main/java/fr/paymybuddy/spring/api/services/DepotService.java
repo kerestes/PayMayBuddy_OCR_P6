@@ -20,4 +20,8 @@ public class DepotService {
         });
         return depotList;
     }
+
+    public Depot save(Depot depot){
+        return depotRepository.save(depot);
+    }
 }

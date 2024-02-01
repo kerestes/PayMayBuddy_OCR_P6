@@ -27,11 +27,4 @@ public class Portefeuille {
     @Column(name = "update_date", nullable = false)
     private Date updateDate;
 
-    public Portefeuille() {
-    }
-
-    public Portefeuille(User user, BigDecimal solde, Date updateDate){
-        this.solde = solde;
-        this.updateDate = updateDate;
-    }
 }

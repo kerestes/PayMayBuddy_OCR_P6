@@ -1,6 +1,5 @@
 package fr.paymybuddy.spring.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,4 +33,38 @@ public class Iban {
     private String iban;
 
     private String bic;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Iban) {
+            if (((Iban) obj).toString().equals(this.toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 71;
+        int result = 1;
+        result = prime * result + ((iban == null) ? 0: iban.hashCode());
+        result = prime * result + ((codeBanque == null) ? 0: codeBanque.hashCode());
+        result = prime * result + ((codeGuichet == null) ? 0: codeGuichet.hashCode());
+        result = prime * result + ((numeroCompte == null) ? 0: numeroCompte.hashCode());
+        result = prime * result + ((cleRib == null) ? 0: cleRib.hashCode());
+        result = prime * result + ((portefeuille.getId() == null)?0: portefeuille.getId().hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString(){
+        return this.iban + this.codeBanque + this.codeGuichet + this.numeroCompte + this.cleRib + this.portefeuille.getId();
+    }
 }

@@ -15,4 +15,8 @@ export class DepotService {
   public getDepots():Observable<Depot[]>{
     return this.http.get<Depot[]>(URL);
   }
+
+  public makeDepot(depot:any){
+    return this.http.post(`${URL}/make-depot`, depot);
+  }
 }

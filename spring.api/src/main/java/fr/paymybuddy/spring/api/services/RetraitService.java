@@ -20,4 +20,8 @@ public class RetraitService {
         });
         return retraitList;
     }
+
+    public Retrait save(Retrait retrait){
+        return retraitRepository.save(retrait);
+    }
 }
