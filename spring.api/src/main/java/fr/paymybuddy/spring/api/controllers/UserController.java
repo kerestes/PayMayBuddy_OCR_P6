@@ -1,12 +1,16 @@
 package fr.paymybuddy.spring.api.controllers;
 
+import fr.paymybuddy.spring.api.models.DTO.UserDTO;
 import fr.paymybuddy.spring.api.models.User;
 import fr.paymybuddy.spring.api.services.UserService;
 import fr.paymybuddy.spring.api.services.authServices.JwtTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -19,28 +23,29 @@ public class UserController {
     private JwtTokenService jwtTokenService;
 
     @GetMapping
-    public ResponseEntity<User> getUser(HttpServletRequest req){
+    public ResponseEntity<UserDTO> getUser(HttpServletRequest req){
         String token = jwtTokenService.recoveryToken(req);
         String email = jwtTokenService.getSubjectFromToken(token);
-        User user = userService.findOneByEmail(email).get();
-        user.setPassword(null);
-        user.setConfirmPassword(null);
-        return ResponseEntity.ok(user);
+        Optional<UserDTO> optionalUserDTO = userService.findOneByEmail(email);
+        if(optionalUserDTO.isPresent())
+            return ResponseEntity.ok(optionalUserDTO.get());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PostMapping
-    public ResponseEntity<User> saveUser(HttpServletRequest req, @RequestBody User user ){
+    public ResponseEntity<UserDTO> updateUser(HttpServletRequest req, @RequestBody User user ){
         String token = jwtTokenService.recoveryToken(req);
         String email = jwtTokenService.getSubjectFromToken(token);
-        User findUser = userService.findOneByEmail(email).get();
-        if (findUser.getEmail().equals(user.getEmail())){
-            findUser.setAdresse(user.getAdresse());
-            findUser.setVille(user.getVille());
-            findUser.setCodePostal(user.getCodePostal());
-            user = userService.save(findUser);
-            user.setPassword(null);
-            user.setConfirmPassword(null);
-            return ResponseEntity.ok(user);
+        Optional<User> optionalUser = userService.findOneByEmailComplet(email);
+        if (optionalUser.isPresent() && optionalUser.get().getEmail().equals(user.getEmail())){
+            User updateUser = optionalUser.get();
+            updateUser.setAdresse(user.getAdresse());
+            updateUser.setVille(user.getVille());
+            updateUser.setCodePostal(user.getCodePostal());
+            Optional<UserDTO> optionalUserDTO = userService.save(updateUser);
+            if(optionalUserDTO.isPresent())
+                return ResponseEntity.ok(optionalUserDTO.get());
+            return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.badRequest().build();
     }

@@ -1,5 +1,6 @@
 package fr.paymybuddy.spring.api.models;
 
+import fr.paymybuddy.spring.api.models.DTO.IbanDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,20 @@ public class Iban {
     private String iban;
 
     private String bic;
+
+    public Iban() {
+    }
+
+    public Iban(IbanDTO iban) {
+        this.id = iban.getId();
+        this.portefeuille = new Portefeuille(iban.getPortefeuille());
+        this.iban = iban.getIban();
+        this.codeBanque = iban.getCodeBanque();
+        this.codeGuichet = iban.getCodeGuichet();
+        this.numeroCompte = iban.getNumeroCompte();
+        this.cleRib = iban.getCleRib();
+        this.bic = iban.getBic();
+    }
 
     @Override
     public boolean equals(Object obj) {

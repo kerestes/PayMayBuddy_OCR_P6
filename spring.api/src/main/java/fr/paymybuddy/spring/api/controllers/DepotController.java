@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paymybuddy.spring.api.models.Carte;
+import fr.paymybuddy.spring.api.models.DTO.CarteDTO;
+import fr.paymybuddy.spring.api.models.DTO.DepotDTO;
+import fr.paymybuddy.spring.api.models.DTO.PortefeuilleDTO;
 import fr.paymybuddy.spring.api.models.Depot;
 import fr.paymybuddy.spring.api.models.Portefeuille;
 import fr.paymybuddy.spring.api.services.CarteService;
@@ -38,42 +41,41 @@ public class DepotController {
     private JwtTokenService jwtTokenService;
 
     @GetMapping
-    public ResponseEntity<List<Depot>> getDepots(HttpServletRequest req){
+    public ResponseEntity<List<DepotDTO>> getDepots(HttpServletRequest req){
         String token = jwtTokenService.recoveryToken(req);
         String email = jwtTokenService.getSubjectFromToken(token);
         return ResponseEntity.ok(depotService.getDepots(email));
     }
 
     @PostMapping("/make-depot")
-    public ResponseEntity<?> makeDepot(HttpServletRequest req, @RequestBody String depot) throws JsonProcessingException {
+    public ResponseEntity<DepotDTO> makeDepot(HttpServletRequest req, @RequestBody String depot) throws JsonProcessingException {
         JsonNode node = new ObjectMapper().readTree(depot);
         String token = jwtTokenService.recoveryToken(req);
         String email = jwtTokenService.getSubjectFromToken(token);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(node.get("annee").asInt(), node.get("mois").asInt(), 1);
-
         String numeroCarte = node.get("numeroCarte").asText().replaceAll("\\s+", "");
-        Date carteDate = calendar.getTime();
 
-        Portefeuille portefeuille = portefeuilleService.getPortefeuilleByEmail(email);
-        Optional<Carte> optionalCarte = carteService.verifyCartePortefeuille(numeroCarte, email);
-        Carte newCarte = new Carte();
+        Optional<PortefeuilleDTO> portefeuilleDTO = portefeuilleService.getPortefeuilleByEmail(email);
+        Optional<CarteDTO> optionalCarte = carteService.verifyCartePortefeuille(numeroCarte, email);
+
         if (optionalCarte.isEmpty()){
-            newCarte.setPortefeuille(portefeuille);
+            Carte newCarte = new Carte();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(node.get("annee").asInt(), node.get("mois").asInt(), 1);
+
+            newCarte.setPortefeuille(new Portefeuille(portefeuilleDTO.get()));
             newCarte.setNomCarte(node.get("nomCarte").asText());
             newCarte.setNumCarte(numeroCarte);
-            newCarte.setMoisCarte(carteDate);
+            newCarte.setMoisCarte(calendar.getTime());
             newCarte.setCryptogramme(node.get("cvv").asInt());
-            newCarte = carteService.save(newCarte);
-        } else {
-            newCarte = optionalCarte.get();
+            optionalCarte = Optional.of(carteService.save(newCarte));
         }
 
         Depot newDepot = new Depot();
         newDepot.setDateDepot(new Date());
-        newDepot.setPortefeuille(portefeuille);
-        newDepot.setCarte(newCarte);
+        newDepot.setPortefeuille(new Portefeuille(portefeuilleDTO.get()));
+        newDepot.setCarte(new Carte(optionalCarte.get()));
         newDepot.setMontantTotal(node.get("montant").decimalValue());
 
         return ResponseEntity.ok(depotService.save(newDepot));

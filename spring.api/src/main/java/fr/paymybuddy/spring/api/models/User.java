@@ -1,6 +1,7 @@
 package fr.paymybuddy.spring.api.models;
 
 import fr.paymybuddy.spring.api.enums.StatusTypeEnum;
+import fr.paymybuddy.spring.api.models.DTO.UserDTO;
 import fr.paymybuddy.spring.api.utils.TokenAuthMailUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -41,6 +42,21 @@ public class User {
     private String confirmPassword;
 
     private StatusTypeEnum status;
+
+    public User() {
+    }
+
+    public User(UserDTO user){
+        this.id = user.getId();
+        this.idUser = user.getIdUser();
+        this.nom = user.getNom();
+        this.prenom = user.getPrenom();
+        this.email = user.getEmail();
+        this.adresse = user.getAdresse();
+        this.ville = user.getVille();
+        this.codePostal = user.getCodePostal();
+        this.status = user.getStatus();
+    }
 
     public void newIdUser(){
         this.idUser = TokenAuthMailUtil.tokenGenerate(10);

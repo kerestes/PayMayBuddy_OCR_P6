@@ -12,7 +12,6 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "tokens_auth_email")
-
 public class TokenAuthEmail {
 
     @Id

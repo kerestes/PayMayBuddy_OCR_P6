@@ -2,6 +2,7 @@ package fr.paymybuddy.spring.api.controllers;
 
 import fr.paymybuddy.spring.api.enums.StatusTypeEnum;
 import fr.paymybuddy.spring.api.exception.InvalidStatusException;
+import fr.paymybuddy.spring.api.models.DTO.UserDTO;
 import fr.paymybuddy.spring.api.models.Portefeuille;
 import fr.paymybuddy.spring.api.models.TokenAuthEmail;
 import fr.paymybuddy.spring.api.models.User;
@@ -37,32 +38,30 @@ public class AuthController {
     private TokenAuthEmailService tokenAuthEmailService;
 
     @PostMapping("/registration")
-    public List<String> registration(@RequestBody User user){
+    public ResponseEntity<List<String>> registration(@RequestBody User user){
         List<String> errorReturn = ValidatorUtil.UserValidation(user);
         if(errorReturn.isEmpty()){
             if(userService.findOneByEmail(user.getEmail()).isEmpty()){
                 user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
                 user.setStatus(StatusTypeEnum.CONFIRME_AUTH);
                 user.newIdUser();
-                User newUser = userService.save(user);
-                if(newUser != null){
-                    emailRegistrationUtil.setUser(newUser);
+                Optional<UserDTO> newUser = userService.save(user);
+                if(newUser.isPresent()){
+                    emailRegistrationUtil.setUser(user);
                     emailRegistrationUtil.run();
-                    return Arrays.asList("success");
-                } else {
-                    //internal error
+                    return ResponseEntity.ok(Arrays.asList("success"));
                 }
             } else {
-                return Arrays.asList("UserExists");
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
             }
         }
-        return errorReturn;
+        return ResponseEntity.ok(errorReturn);
     }
 
     @GetMapping("/registration/confirm")
-    public Boolean confirmRegistration(@RequestParam String token){
+    public ResponseEntity<?> confirmRegistration(@RequestParam String token){
         Optional<TokenAuthEmail> tokenAuthEmailOptional = tokenAuthEmailService.findOneByToken(token);
-        if (tokenAuthEmailOptional.isPresent()){
+        if (tokenAuthEmailOptional.isPresent()) {
             User user = tokenAuthEmailOptional.get().getUser();
             user.setStatus(StatusTypeEnum.ACTIVE);
             Portefeuille portefeuille = new Portefeuille();
@@ -71,11 +70,9 @@ public class AuthController {
             portefeuille.setUpdateDate(new Date());
             userService.save(user);
             portefeuilleService.save(portefeuille);
-        } else {
-            System.out.println("erro: TokenAuthEmail nao esta registrado");
-            return false;
+            return ResponseEntity.ok().build();
         }
-        return true;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PostMapping("/login")
@@ -84,9 +81,9 @@ public class AuthController {
             String token = userService.authenticateUser(user);
             return ResponseEntity.ok().body(token);
         }catch (BadCredentialsException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }catch(InvalidStatusException e){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 }

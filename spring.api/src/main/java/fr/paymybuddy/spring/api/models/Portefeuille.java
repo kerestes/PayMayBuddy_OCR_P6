@@ -1,5 +1,6 @@
 package fr.paymybuddy.spring.api.models;
 
+import fr.paymybuddy.spring.api.models.DTO.PortefeuilleDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,5 +27,14 @@ public class Portefeuille {
 
     @Column(name = "update_date", nullable = false)
     private Date updateDate;
+
+    public Portefeuille(){}
+
+    public Portefeuille(PortefeuilleDTO portefeuilleDTO){
+        this.id = portefeuilleDTO.getId();
+        this.user = new User(portefeuilleDTO.getUser());
+        this.solde = portefeuilleDTO.getSolde();
+        this.updateDate = portefeuilleDTO.getUpdateDate();
+    }
 
 }

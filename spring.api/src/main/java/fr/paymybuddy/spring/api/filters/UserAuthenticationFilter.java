@@ -21,9 +21,9 @@ import java.util.Arrays;
 
 @Component
 public class UserAuthenticationFilter extends OncePerRequestFilter {
+
     @Autowired
     private JwtTokenService jwtTokenService;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -42,13 +42,11 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                throw new RuntimeException("O token está ausente.");
+                throw new RuntimeException("Il manque le token");
             }
         }
         filterChain.doFilter(request, response);
     }
-
-    // Recupera o token do cabeçalho Authorization da requisição
 
 
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {

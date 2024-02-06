@@ -1,6 +1,8 @@
 package fr.paymybuddy.spring.api.controllers;
 
 import fr.paymybuddy.spring.api.models.ConnectionBuddy;
+import fr.paymybuddy.spring.api.models.DTO.ConnectionBuddyDTO;
+import fr.paymybuddy.spring.api.models.DTO.UserDTO;
 import fr.paymybuddy.spring.api.models.User;
 import fr.paymybuddy.spring.api.services.ConnectionBuddyService;
 import fr.paymybuddy.spring.api.services.UserService;
@@ -26,39 +28,33 @@ public class BuddyController {
     private JwtTokenService jwtTokenService;
 
     @GetMapping("/buddy-list")
-    public ResponseEntity<List<User>> getBuddyList(HttpServletRequest request){
+    public ResponseEntity<List<UserDTO>> getBuddyList(HttpServletRequest request){
         String token = jwtTokenService.recoveryToken(request);
         String email = jwtTokenService.getSubjectFromToken(token);
         Long id = userService.findOneByEmail(email).get().getId();
-        System.out.println(id);
         return ResponseEntity.ok(connectionBuddyService.getBuddyList(id));
     }
 
     @PostMapping("/trouver-buddy")
-    public ResponseEntity<User> trouverBuddy(@RequestBody User user){
-        Optional<User> userOptional = userService.findOneByEmail(user.getEmail());
+    public ResponseEntity<UserDTO> trouverBuddy(@RequestBody User user){
+        Optional<UserDTO> userOptional = userService.findOneByEmail(user.getEmail());
         if(userOptional.isPresent()){
-            User newUser = userOptional.get();
-            newUser.setStatus(null);
-            newUser.setPassword(null);
-            newUser.setAdresse(null);
-            newUser.setConfirmPassword(null);
-            return ResponseEntity.ok(newUser);
+            return ResponseEntity.ok(userOptional.get());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/add-buddy")
-    public ResponseEntity<ConnectionBuddy> addBuddy(@RequestBody User user, HttpServletRequest request){
+    public ResponseEntity<ConnectionBuddyDTO> addBuddy(@RequestBody User user, HttpServletRequest request){
         String token = jwtTokenService.recoveryToken(request);
         String email = jwtTokenService.getSubjectFromToken(token);
-        Optional<User> userOrigineOptional = userService.findOneByEmail(email);
-        Optional<User> userDestinationOptional = userService.findOneByEmail(user.getEmail());
+        Optional<UserDTO> userOrigineOptional = userService.findOneByEmail(email);
+        Optional<UserDTO> userDestinationOptional = userService.findOneByEmail(user.getEmail());
         if(userOrigineOptional.isPresent() && userDestinationOptional.isPresent()){
             if(!connectionBuddyService.verifyConnection(userOrigineOptional.get(), userDestinationOptional.get())){
                 ConnectionBuddy connectionBuddy = new ConnectionBuddy();
-                connectionBuddy.setUser1(userOrigineOptional.get());
-                connectionBuddy.setUser2(userDestinationOptional.get());
+                connectionBuddy.setUser1(new User(userOrigineOptional.get()));
+                connectionBuddy.setUser2(new User(userDestinationOptional.get()));
                 return ResponseEntity.ok(connectionBuddyService.save(connectionBuddy));
             }
             return ResponseEntity.badRequest().build();

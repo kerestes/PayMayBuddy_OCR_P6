@@ -1,6 +1,7 @@
 package fr.paymybuddy.spring.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.paymybuddy.spring.api.models.DTO.CarteDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,4 +32,17 @@ public class Carte {
     private Date moisCarte;
 
     private int cryptogramme;
+
+    public Carte(){
+
+    }
+
+    public Carte(CarteDTO carteDTO){
+        this.id = carteDTO.getId();
+        this.portefeuille = new Portefeuille(carteDTO.getPortefeuille());
+        this.nomCarte = carteDTO.getNomCarte();
+        this.numCarte = carteDTO.getNumCarte();
+        this.moisCarte = carteDTO.getMoisCarte();
+        this.cryptogramme = carteDTO.getCryptogramme();
+    }
 }

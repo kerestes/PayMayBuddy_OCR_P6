@@ -12,8 +12,7 @@ public class ValidatorUtil {
 
     public static List<String> UserValidation(User user){
         List<String> erroList = new ArrayList<>();
-        Pattern regexPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-        Matcher regexMatcher = regexPattern.matcher(user.getEmail());
+
         if(user.getNom() == null || user.getNom().isEmpty()){
             erroList.add("noNom");
         }
@@ -22,6 +21,13 @@ public class ValidatorUtil {
         }
         if(user.getEmail() == null || user.getEmail().isEmpty()){
             erroList.add("noEmail");
+        } else {
+            Pattern regexPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+            Matcher regexMatcher = regexPattern.matcher(user.getEmail());
+
+            if(!regexMatcher.matches()){
+                erroList.add("noValideEmail");
+            }
         }
         if(user.getPassword() == null || user.getPassword().isEmpty()){
             erroList.add("noPassword");
@@ -29,12 +35,10 @@ public class ValidatorUtil {
         if(user.getConfirmPassword() == null || user.getConfirmPassword().isEmpty()){
             erroList.add("noConfirmPassword");
         }
-        if(!user.getPassword().equals(user.getConfirmPassword())){
+        if(!erroList.contains("noConfirmPassword") && !erroList.contains("noPassword") && !user.getPassword().equals(user.getConfirmPassword())){
             erroList.add("mismatchPassword");
         }
-        if(!regexMatcher.matches()){
-            erroList.add("noValideEmail");
-        }
+
         return erroList;
     }
 }

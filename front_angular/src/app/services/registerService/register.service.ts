@@ -17,7 +17,7 @@ export class RegisterService {
     return this.http.post<Array<string>>(REGISTER_URL, user);
   }
 
-  confirmRegistration(token: string):Observable<boolean>{
-    return this.http.get<boolean>(`${REGISTER_URL}/confirm?token=${token}`);
+  confirmRegistration(token: string){
+    return this.http.get(`${REGISTER_URL}/confirm?token=${token}`);
   }
 }

@@ -3,6 +3,9 @@ package fr.paymybuddy.spring.api.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.paymybuddy.spring.api.models.DTO.IbanDTO;
+import fr.paymybuddy.spring.api.models.DTO.PortefeuilleDTO;
+import fr.paymybuddy.spring.api.models.DTO.RetraitDTO;
 import fr.paymybuddy.spring.api.models.Iban;
 import fr.paymybuddy.spring.api.models.Portefeuille;
 import fr.paymybuddy.spring.api.models.Retrait;
@@ -36,24 +39,24 @@ public class RetraitController {
     private JwtTokenService jwtTokenService;
 
     @GetMapping
-    public ResponseEntity<List<Retrait>> getRetraits(HttpServletRequest request){
+    public ResponseEntity<List<RetraitDTO>> getRetraits(HttpServletRequest request){
         String token = jwtTokenService.recoveryToken(request);
         String email = jwtTokenService.getSubjectFromToken(token);
         return ResponseEntity.ok(retraitService.getRetraits(email));
     }
 
     @PostMapping("/make-retrait")
-    public ResponseEntity<?> makeRetrait(HttpServletRequest request, @RequestBody String retrait) throws JsonProcessingException {
+    public ResponseEntity<RetraitDTO> makeRetrait(HttpServletRequest request, @RequestBody String retrait) throws JsonProcessingException {
         JsonNode node = new ObjectMapper().readTree(retrait);
         String token = jwtTokenService.recoveryToken(request);
         String email = jwtTokenService.getSubjectFromToken(token);
 
-        Portefeuille portefeuille = portefeuilleService.getPortefeuilleByEmail(email);
-        if(portefeuille.getSolde().compareTo(node.get("montant").decimalValue()) > 0){
+        Optional<PortefeuilleDTO> optionalPortefeuilleDTO = portefeuilleService.getPortefeuilleByEmail(email);
+        if(optionalPortefeuilleDTO.isPresent() && optionalPortefeuilleDTO.get().getSolde().compareTo(node.get("montant").decimalValue()) > 0){
             String iban = node.get("iban").asText();
 
             Iban realIban = new Iban();
-            realIban.setPortefeuille(portefeuille);
+            realIban.setPortefeuille(new Portefeuille(optionalPortefeuilleDTO.get()));
             realIban.setBic(node.get("bic").asText());
             realIban.setIban(iban.substring(0, 4));
             realIban.setCodeBanque(iban.substring(4, 9));
@@ -61,18 +64,16 @@ public class RetraitController {
             realIban.setNumeroCompte(iban.substring(14, iban.length() -2));
             realIban.setCleRib(iban.substring(iban.length() -2, iban.length()));
 
-            Optional<Iban> ibanOptional = ibanService.findByCompteAdresse(realIban.getIban(), realIban.getCodeBanque(),
+            Optional<IbanDTO> ibanOptional = ibanService.findByCompteAdresse(realIban.getIban(), realIban.getCodeBanque(),
                     realIban.getCodeGuichet(), realIban.getNumeroCompte(), realIban.getCleRib(), realIban.getPortefeuille().getId());
-            if(ibanOptional.isPresent()){
-                realIban = ibanOptional.get();
-            } else {
-                realIban = ibanService.save(realIban);
+            if(ibanOptional.isEmpty()){
+                ibanOptional = Optional.of(ibanService.save(realIban));
             }
 
             Retrait realRetrait = new Retrait();
-            realRetrait.setPortefeuille(portefeuille);
+            realRetrait.setPortefeuille(new Portefeuille(optionalPortefeuilleDTO.get()));
             realRetrait.setDateRetrait(new Date());
-            realRetrait.setIban(realIban);
+            realRetrait.setIban(new Iban(ibanOptional.get()));
             realRetrait.setMontantTotal(node.get("montant").decimalValue());
 
             return ResponseEntity.ok(retraitService.save(realRetrait));

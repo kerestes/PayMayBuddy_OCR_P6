@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TrasferService } from '../../services/transferService/trasfer.service';
 import { User } from '../../models/user/user';
 import { Transaction } from '../../models/transaction/transaction';
-import { SoldeInsuffisantComponent } from '../solde-inssuffisant/solde-insuffisant.component';
+import { SoldeInsuffisantComponent } from '../solde-insuffisant/solde-insuffisant.component';
 
 @Component({
   selector: 'app-transfer-dialog',

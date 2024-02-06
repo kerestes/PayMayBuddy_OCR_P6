@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RetraitService } from '../../../../services/retraitService/retrait.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RetraitConfirmedComponent } from '../../../../dialogs/retrait-confirmed/retrait-confirmed.component';
-import { SoldeInsuffisantComponent } from '../../../../dialogs/solde-inssuffisant/solde-insuffisant.component';
+import { SoldeInsuffisantComponent } from '../../../../dialogs/solde-insuffisant/solde-insuffisant.component';
 
 @Component({
   selector: 'app-retirer',
