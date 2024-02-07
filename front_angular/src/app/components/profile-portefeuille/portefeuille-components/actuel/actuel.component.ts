@@ -21,7 +21,7 @@ export class ActuelComponent {
   portefeuilleService: PortefeuilleService = inject(PortefeuilleService);
   depotService: DepotService = inject(DepotService);
   retraitService: RetraitService = inject(RetraitService);
-  solde!:number;
+  solde!:number|undefined;
   displayedColumns: string[] = ['carte', 'iban', 'montantTotal', 'taxe', 'montantLiquide', 'date'];
   displayedColumnsRetrait: string[] =['iban', 'montantTotal', 'taxe', 'montantLiquide', 'date']
   dataSourceDepot!: Depot[];

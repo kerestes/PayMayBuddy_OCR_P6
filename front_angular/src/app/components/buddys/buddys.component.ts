@@ -26,11 +26,7 @@ export class BuddysComponent {
   dataSource!:User[];
 
   ngOnInit(){
-    this.buddyService.getBuddyList().subscribe({
-      next:(response)=>{
-        this.dataSource = response;
-      }
-    })
+    this.getBuddyList();
   }
 
   modalTransfer(user:User){
@@ -40,5 +36,13 @@ export class BuddysComponent {
 
   addBuddyDialog(){
     this.dialog.open(AddBuddyComponent);
+  }
+
+  getBuddyList(){
+    this.buddyService.getBuddyList().subscribe({
+      next:(response)=>{
+        this.dataSource = response;
+      }
+    })
   }
 }

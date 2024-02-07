@@ -7,8 +7,8 @@ import { User } from "../user/user";
 
 export class Portefeuille {
   constructor(
-    public user:User,
-    public solde:number,
-    public updateDate:Date,
+    public user?:User,
+    public solde?:number,
+    public updateDate?:Date,
   ){}
 }

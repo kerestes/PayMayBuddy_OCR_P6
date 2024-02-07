@@ -9,7 +9,6 @@ import { TrasferService } from '../../services/transferService/trasfer.service';
 import { Transaction } from '../../models/transaction/transaction';
 import { User } from '../../models/user/user';
 import { BuddyService } from '../../services/buddyService/buddy.service';
-import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { TransferDialogComponent } from '../../dialogs/transfer-dialog/transfer-dialog.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -39,16 +38,8 @@ export class TransferComponent {
   });
 
   ngOnInit(){
-    this.transferService.getTransferList().subscribe({
-      next:(response) => {
-        this.dataSource = response;
-      }
-    })
-    this.buddyService.getBuddyList().subscribe({
-      next:(response)=>{
-        this.selectOptions = response;
-      }
-    })
+    this.getTransferList();
+    this.getBuddyList();
   }
 
   selectUser(user:User){
@@ -56,12 +47,27 @@ export class TransferComponent {
   }
 
   makeTransfer(){
-    console.log(this.selectedUser)
     if(this.selectUserFrom.controls.buddy.valid && this.selectUserFrom.controls.montant.valid && this.selectedUser){
       this.transferService.user = this.selectedUser;
       this.transferService.transaction.montantTotal = this.selectUserFrom.get('montant')?.value;
     }
 
     this.dialog.open(TransferDialogComponent);
+  }
+
+  getTransferList(){
+    this.transferService.getTransferList().subscribe({
+      next:(response) => {
+        this.dataSource = response;
+      }
+    })
+  }
+
+  getBuddyList(){
+    this.buddyService.getBuddyList().subscribe({
+      next:(response)=>{
+        this.selectOptions = response;
+      }
+    })
   }
 }

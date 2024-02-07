@@ -24,14 +24,18 @@ export class HomeComponent {
   ngOnInit():void{
     let token = this.activetedRoute.snapshot.queryParamMap.get("token");
     if(token){
-      this.registerService.confirmRegistration(token).subscribe({
-        next:() => {
-            this.dialog.open(ConfirmeRegistrationComponent);
-        },
-        error:(error) => {
-          console.error(error);
-        }
-      })
+      this.activateRegistration(token)
     }
+  }
+
+  activateRegistration(token:string){
+    this.registerService.confirmRegistration(token).subscribe({
+      next:() => {
+          this.dialog.open(ConfirmeRegistrationComponent);
+      },
+      error:(error) => {
+        console.error(error);
+      }
+    })
   }
 }

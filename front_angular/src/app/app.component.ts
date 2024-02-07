@@ -6,8 +6,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { RouterLink } from '@angular/router';
 import { LoginService } from './services/loginService/login.service';
-import {MatMenuModule} from '@angular/material/menu';
-import { Portefeuille } from './models/portefeuille/portefeuille';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +19,9 @@ export class AppComponent {
 
   document:Document = inject(DOCUMENT);
   localStorage = this.document.defaultView?.localStorage;
+
   loginService: LoginService = inject(LoginService);
-  title:string = 'front_angular';
+
   login:boolean = this.loginService.isAuthencitated();
 
   logout():void{

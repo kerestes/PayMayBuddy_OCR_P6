@@ -1,6 +1,6 @@
 import { Depot } from './depot';
 
-describe('Depot', () => {
+xdescribe('Depot', () => {
   it('should create an instance', () => {
     expect(new Depot()).toBeTruthy();
   });

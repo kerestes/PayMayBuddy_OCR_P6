@@ -33,6 +33,7 @@ export class RegisterComponent {
 
   private registerService: RegisterService=inject(RegisterService);
   private dialog:MatDialog=inject(MatDialog);
+  snackBar=inject(MatSnackBar);
 
   signupForm:FormGroup = new FormGroup({
     nom: new FormControl(null, Validators.required),
@@ -46,7 +47,6 @@ export class RegisterComponent {
   });
 
   hidenPassword:boolean = true;
-  snackBar=inject(MatSnackBar);
 
   get password(){return this.signupForm.get('password')};
   get confirmPassword(){return this.signupForm.get('confirmPassword')};
