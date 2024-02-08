@@ -4,6 +4,15 @@
 L'application Pay My Buddy vous permets d'organizer votre portefeuille d'une manier simple, intuitive et efficace.
 Avec un clique vous pouvez faire une dépôt, un retrait ou vire de l'argent à un ami.
 
+## Docker
+
+C'est possible de demarrer l'application par le biais du Docker, pour autant il faut:
+
+* Génerer le fichier .jar avec la commande
+    * mvn install (dans le paque /spring.api)
+* Lancer le composer de container
+    * docker compose up --build
+
 ## La structure de l'application
 
 L'application a été développée en Angular 17 et Java Spring 3.2.

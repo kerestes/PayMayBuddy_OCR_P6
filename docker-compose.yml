@@ -1,0 +1,37 @@
+version: "3.7"
+
+volumes:
+  db-volume:
+
+services:
+  spring_api:
+    build: ./spring.api
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASECONNECTION=jdbc:mysql://paymybuddy_db:3306/paymybuddy
+      - DATABASEUSERNAME=admin
+      - DATABASEPASSWORD=rootroot
+      - EMAILUSERNAME=youcanalhistoriatube@gmail.com
+      - EMAILPASSWORD="cagl fyrs hfws pbcz"
+    depends_on: 
+      - paymybuddy_db
+
+  front_service: 
+    build: ./front_angular
+    ports:
+      - 4200:4200
+    depends_on: 
+      - spring_api
+
+  paymybuddy_db:
+    build: .
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: paymybuddy
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: rootroot
+      MYSQL_ROOT_PASSWORD: rootroot
+    volumes:
+      - db-volume:/var/lib/mysql
