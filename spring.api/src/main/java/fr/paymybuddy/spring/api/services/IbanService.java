@@ -17,11 +17,17 @@ public class IbanService {
     public Optional<IbanDTO> findByCompteAdresse(String iban, String codeBanque, String codeGuichet, String numeroCompte, String cleRib, Long portefeuilleId){
         Optional<Iban> optionalIban = ibanRepository.findByCompteAdresse(iban, codeBanque, codeGuichet, numeroCompte, cleRib, portefeuilleId);
         if ((optionalIban.isPresent()))
-            return Optional.of(new IbanDTO(optionalIban.get()));
+            return Optional.of(cleanIban(new IbanDTO(optionalIban.get())));
         return Optional.empty();
     }
 
     public IbanDTO save(Iban iban){
-        return new IbanDTO(ibanRepository.save(iban));
+        return cleanIban(new IbanDTO(ibanRepository.save(iban)));
+    }
+
+    private IbanDTO cleanIban(IbanDTO newIban){
+        newIban.getPortefeuille().nullSolde();
+        newIban.getPortefeuille().getUser().nullAdresse();
+        return newIban;
     }
 }

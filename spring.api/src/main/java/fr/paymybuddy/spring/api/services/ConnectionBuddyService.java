@@ -31,7 +31,7 @@ public class ConnectionBuddyService {
     }
 
     public ConnectionBuddyDTO save(ConnectionBuddy connectionBuddy){
-        return new ConnectionBuddyDTO(connectionBuddyRepository.save(connectionBuddy));
+        return cleanConnection(new ConnectionBuddyDTO(connectionBuddyRepository.save(connectionBuddy)));
     }
 
     public Boolean verifyConnection(UserDTO user1, UserDTO user2){
@@ -39,5 +39,11 @@ public class ConnectionBuddyService {
         if(connectionBuddyOptional.isPresent())
             return true;
         return false;
+    }
+
+    private ConnectionBuddyDTO cleanConnection(ConnectionBuddyDTO newConnection){
+        newConnection.getUser1().nullAdresse();
+        newConnection.getUser2().nullAdresse();
+        return newConnection;
     }
 }

@@ -17,10 +17,16 @@ public class RetraitService {
 
     public List<RetraitDTO> getRetraits(String email){
         List<Retrait> retraitList = retraitRepository.getRetraits(email);
-        return retraitList.stream().map(retrait -> new RetraitDTO(retrait)).collect(Collectors.toList());
+        return retraitList.stream().map(retrait -> cleanRetrait(new RetraitDTO(retrait))).collect(Collectors.toList());
     }
 
     public RetraitDTO save(Retrait retrait){
-        return new RetraitDTO(retraitRepository.save(retrait));
+        return cleanRetrait(new RetraitDTO(retraitRepository.save(retrait)));
+    }
+
+    public RetraitDTO cleanRetrait(RetraitDTO newRetrait){
+        newRetrait.getPortefeuille().nullSolde();
+        newRetrait.getPortefeuille().getUser().nullAdresse();
+        return newRetrait;
     }
 }

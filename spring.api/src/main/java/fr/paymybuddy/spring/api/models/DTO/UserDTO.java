@@ -29,5 +29,11 @@ public class UserDTO {
         this.status = user.getStatus();
     }
 
+    public void nullAdresse(){
+        this.adresse = null;
+        this.ville = null;
+        this.codePostal = null;
+        this.status = null;
+    }
 
 }

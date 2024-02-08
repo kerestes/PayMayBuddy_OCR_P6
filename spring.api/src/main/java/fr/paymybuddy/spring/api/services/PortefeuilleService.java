@@ -20,7 +20,12 @@ public class PortefeuilleService {
     public Optional<PortefeuilleDTO> getPortefeuilleByEmail(String email){
         Optional<Portefeuille> optionalPortefeuille = portefeuilleRepository.getPortefeuilleByEmail(email);
         if(optionalPortefeuille.isPresent())
-            return Optional.of(new PortefeuilleDTO(optionalPortefeuille.get()));
+            return Optional.of(cleanPortefeuille(new PortefeuilleDTO(optionalPortefeuille.get())));
         return Optional.empty();
+    }
+
+    private PortefeuilleDTO cleanPortefeuille(PortefeuilleDTO newPortefeuille){
+        newPortefeuille.getUser().nullAdresse();
+        return newPortefeuille;
     }
 }

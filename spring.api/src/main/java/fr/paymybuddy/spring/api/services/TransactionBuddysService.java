@@ -19,11 +19,19 @@ public class TransactionBuddysService {
 
     public List<TransactionBuddysDTO> getTransactions(String email){
         return transactionBuddyRepository.getTransaction(email).stream()
-                .map(transactionBuddys -> new TransactionBuddysDTO(transactionBuddys)).collect(Collectors.toList());
+                .map(transactionBuddys ->  cleanTransaction(new TransactionBuddysDTO(transactionBuddys))).collect(Collectors.toList());
     }
 
     public TransactionBuddysDTO save(TransactionBuddys transactionBuddys){
-        return new TransactionBuddysDTO(transactionBuddyRepository.save(transactionBuddys));
+        return cleanTransaction(new TransactionBuddysDTO(transactionBuddyRepository.save(transactionBuddys)));
+    }
+
+    private TransactionBuddysDTO cleanTransaction(TransactionBuddysDTO newTransaction){
+        newTransaction.getPortefeuilleOrigine().nullSolde();
+        newTransaction.getPortefeuilleOrigine().getUser().nullAdresse();
+        newTransaction.getPortefeuilleDestination().nullSolde();
+        newTransaction.getPortefeuilleDestination().getUser().nullAdresse();
+        return newTransaction;
     }
 
 }

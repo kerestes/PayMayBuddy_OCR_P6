@@ -17,10 +17,16 @@ public class DepotService {
 
     public List<DepotDTO> getDepots(String email){
         List<Depot> depotList = depotRepository.getDepots(email);
-        return depotList.stream().map(depot -> new DepotDTO(depot)).collect(Collectors.toList());
+        return depotList.stream().map(depot -> cleanDepot(new DepotDTO(depot))).collect(Collectors.toList());
     }
 
     public DepotDTO save(Depot depot){
-        return new DepotDTO(depotRepository.save(depot));
+        return cleanDepot(new DepotDTO(depotRepository.save(depot)));
+    }
+
+    public DepotDTO cleanDepot(DepotDTO newDepot){
+        newDepot.getPortefeuille().nullSolde();
+        newDepot.getPortefeuille().getUser().nullAdresse();
+        return newDepot;
     }
 }

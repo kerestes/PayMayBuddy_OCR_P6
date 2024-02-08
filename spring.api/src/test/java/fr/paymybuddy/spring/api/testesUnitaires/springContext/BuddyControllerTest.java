@@ -85,7 +85,7 @@ public class BuddyControllerTest {
     @Test
     public void trouverBuddyTest() throws Exception {
 
-        Mockito.when(userService.findOneByEmail(anyString())).thenReturn(Optional.of(new UserDTO(user)));
+        Mockito.when(userService.findOneByEmailWithOutAdresse(anyString())).thenReturn(Optional.of(new UserDTO(user)));
 
         mockMvc.perform(post("/buddy/trouver-buddy").content(objectMapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(

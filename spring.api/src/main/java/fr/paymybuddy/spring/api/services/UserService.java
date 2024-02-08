@@ -25,6 +25,14 @@ public class UserService {
     @Autowired
     private JwtTokenService jwtTokenService;
 
+
+    public Optional<UserDTO> findOneByEmailWithOutAdresse(String email){
+        Optional<User> userOptional = userRepository.findOneByEmail(email);
+        if(userOptional.isPresent())
+            return Optional.of(cleanUser(new UserDTO(userOptional.get())));
+        return Optional.empty();
+    }
+
     public Optional<UserDTO> findOneByEmail(String email){
         Optional<User> userOptional = userRepository.findOneByEmail(email);
         if(userOptional.isPresent())
@@ -62,6 +70,11 @@ public class UserService {
         }else{
             throw new InvalidStatusException("User email not confirmed");
         }
+    }
+
+    private UserDTO cleanUser(UserDTO newUser){
+        newUser.nullAdresse();
+        return newUser;
     }
 
 }

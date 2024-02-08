@@ -37,7 +37,7 @@ public class BuddyController {
 
     @PostMapping("/trouver-buddy")
     public ResponseEntity<UserDTO> trouverBuddy(@RequestBody User user){
-        Optional<UserDTO> userOptional = userService.findOneByEmail(user.getEmail());
+        Optional<UserDTO> userOptional = userService.findOneByEmailWithOutAdresse(user.getEmail());
         if(userOptional.isPresent()){
             return ResponseEntity.ok(userOptional.get());
         }

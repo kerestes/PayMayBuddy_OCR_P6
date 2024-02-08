@@ -19,6 +19,7 @@ public class CarteDTO {
         this.id = carte.getId();
         this.portefeuille = new PortefeuilleDTO(carte.getPortefeuille());
         this.numCarte = carte.getNumCarte();
+
         this.nomCarte = carte.getNomCarte();
         this.moisCarte = carte.getMoisCarte();
         this.cryptogramme = carte.getCryptogramme();

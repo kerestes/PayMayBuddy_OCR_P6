@@ -20,4 +20,9 @@ public class PortefeuilleDTO {
         this.user = new UserDTO(portefeuille.getUser());
         this.updateDate = portefeuille.getUpdateDate();
     }
+
+    public void nullSolde(){
+        this.solde = null;
+        this.updateDate = null;
+    }
 }
