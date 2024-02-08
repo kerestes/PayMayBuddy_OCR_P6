@@ -129,7 +129,7 @@ DELIMITER |
         FOR EACH ROW
         BEGIN
             SET
-                NEW.montant_liquide = NEW.montant_total * 0.95,
+                NEW.montant_liquide = NEW.montant_total * 0.995,
                 NEW.taxe = NEW.montant_total - NEW.montant_liquide;
             UPDATE
                 portefeuilles SET solde = solde + NEW.montant_liquide, update_date = NEW.date_depot WHERE id = NEW.id_portefeuille;
@@ -145,7 +145,7 @@ DELIMITER |
         FOR EACH ROW
         BEGIN
             SET
-                NEW.montant_liquide = NEW.montant_total * 0.95,
+                NEW.montant_liquide = NEW.montant_total * 0.995,
                 NEW.taxe = NEW.montant_total - NEW.montant_liquide;
             UPDATE
                 portefeuilles SET solde = solde - NEW.montant_liquide, update_date = NEW.date_retrait WHERE id = NEW.id_portefeuille;
@@ -161,7 +161,7 @@ DELIMITER |
         FOR EACH ROW
         BEGIN
             SET
-                NEW.montant_liquide = NEW.montant_total * 0.95,
+                NEW.montant_liquide = NEW.montant_total * 0.995,
                 NEW.taxe = NEW.montant_total - NEW.montant_liquide;
             UPDATE
                 portefeuilles SET solde = solde - NEW.montant_liquide, update_date = NEW.date_transaction WHERE id = NEW.id_portefeuille_origine;
