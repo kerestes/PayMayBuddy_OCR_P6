@@ -8,6 +8,7 @@ Avec un clique vous pouvez faire une dépôt, un retrait ou vire de l'argent à 
 
 C'est possible de demarrer l'application par le biais du Docker, pour autant il faut:
 
+* Remplacer les variable USER_MAIL et USER_PASSWORD dans le fichier docker-compose.yml (si vous souhaitez envoyer de mail en vrai)
 * Génerer le fichier .jar avec la commande
     * mvn install (dans le paque /spring.api)
 * Lancer le composer de container
