@@ -12,8 +12,8 @@ services:
       - DATABASECONNECTION=jdbc:mysql://paymybuddy_db:3306/paymybuddy
       - DATABASEUSERNAME=admin
       - DATABASEPASSWORD=rootroot
-      - EMAILUSERNAME=youcanalhistoriatube@gmail.com
-      - EMAILPASSWORD="cagl fyrs hfws pbcz"
+      - EMAILUSERNAME={USER_MAIL}
+      - EMAILPASSWORD={USER_PASSWORD}
     depends_on: 
       - paymybuddy_db
 
